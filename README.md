@@ -1,5 +1,13 @@
 # gido — git into dot
 
+Install:
+    # from pypi
+    python -m pip install gido
+
+    # from a clone:
+    python -m pip install .
+
+
 Usage:
     ./gido.py
 
