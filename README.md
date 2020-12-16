@@ -1,5 +1,7 @@
 # gido — git into dot
 
+Display `git` repo as graph network using `dot`.
+
 Install:
     # from pypi
     python -m pip install gido
@@ -21,3 +23,9 @@ displaying PNG files:
 
     ./gido.py | dot -Tpng | kitty icat
 
+The result is a graphical image of the network graph of your git
+repo:
+
+![A directed graph showing this repo's ancestral structure](asset/example-202012.png "output of gido | dot -Tpng")
+
+∎
