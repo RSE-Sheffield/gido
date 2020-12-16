@@ -2,15 +2,16 @@
 
 Display `git` repo as graph network using `dot`.
 
-Install:
+## Install
+
     # from pypi
     python -m pip install gido
 
     # from a clone:
     python -m pip install .
 
+## Usage
 
-Usage:
     gido
 
 `gido` outputs [DOT graph description language](https://en.wikipedia.org/wiki/DOT_%28graph_description_language%29).
@@ -27,5 +28,25 @@ The result is a graphical image of the network graph of your git
 repo:
 
 ![A directed graph showing this repo's ancestral structure](asset/example-202012.png "output of gido | dot -Tpng")
+
+## Extra options
+
+Additional options can be given, and at least in this
+version they get passed to the `git log` command.
+
+Some uses of this:
+
+Show all branches (instead of just the current one):
+
+    gido --all
+
+Limit the output to the most recent 99 entries (for large repos
+which can exceed the largest PNG file allowed by the PNG
+format):
+
+    gido -n 99
+
+Most options are likely to disrupt the parsing of the output of
+`git log` and are therefore not recommended.
 
 ∎

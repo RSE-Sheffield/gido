@@ -18,17 +18,17 @@ def main(argv=None):
         argv = sys.argv
 
     parser = argparse.ArgumentParser()
-    parser.parse_args()
+    ns, remainder = parser.parse_known_args()
 
-    inspect(parser)
+    inspect(ns, remainder)
 
 
-def inspect(args):
+def inspect(ns, remainder):
     """
     Inspect the git repo and convert to dot format.
     """
 
-    child = git("log", "--no-patch", "--pretty=%h %p -- %D")
+    child = git("log", "--no-patch", "--pretty=%h %p -- %D", *remainder)
 
     print("digraph G {")
 
