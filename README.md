@@ -11,7 +11,7 @@ Install:
 Usage:
     ./gido.py
 
-it outputs [DOT graph description language](https://en.wikipedia.org/wiki/DOT_%28graph_description_language%29),
+`gido` outputs [DOT graph description language](https://en.wikipedia.org/wiki/DOT_%28graph_description_language%29),
 so it is probably more useful to use `dot` to convert to PNG:
 
     ./gido.py | dot -Tpng > log.png
