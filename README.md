@@ -49,4 +49,14 @@ format):
 Most options are likely to disrupt the parsing of the output of
 `git log` and are therefore not recommended.
 
+## For `gido` developers
+
+`pip` and `wheel` are recommend to build a wheel file:
+
+    python -m pip wheel .
+
+Which can be uploaded to PyPI using `twine`:
+
+    python -m twine upload *.whl
+
 ∎
