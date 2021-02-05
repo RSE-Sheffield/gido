@@ -87,7 +87,22 @@ def Parents():
     tuple.
     """
 
-    return []
+    dir = "."
+
+    N=99
+
+    repo = git.Repo(dir)
+    heads = repo.heads
+
+    found_commits = set()
+    for head in heads:
+        found_commits |= set(repo.iter_commits(head.commit, max_count=N))
+
+    rs = []
+    for commit in found_commits:
+        rs.append(Relationship(str(commit), [str(p) for p in commit.parents]))
+
+    return rs
 
 
 if __name__ == "__main__":
