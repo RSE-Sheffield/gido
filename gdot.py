@@ -37,39 +37,16 @@ def inspect(ns, remainder):
 
     nodes = Parents()
 
-    for node in nodes:
-        print(node)
-
-    return
-
     print("digraph G {")
 
-    for row in child.stdout.split("\n"):
-        # ignoring blank lines, in particular, the final one
-        if not row:
-            continue
-        if "--" not in row:
-            raise Exception("expected `--` in input")
-
-        # Rename nodes so that they start with S,
-        # making them valid lex tokens for dot.
-        l = row.split()
-        label = l[0]
-        for i, n in enumerate(l):
-            if n == "--":
-                break
-            l[i] = "S" + l[i]
-
+    for node in nodes:
         # Output node label.
-        print(l[0], '[ label = "' + label + '" ]')
+        print("S"+node.name, '[ label = "' + node.name + '" ]')
 
         # Output an edge for each parent.
-        i = 1
-        while l[i] != "--":
-            print(l[0], "->", l[i])
-            i += 1
-        i += 1
-        while i < len(l):
+        for parent in node.parent:
+            print("S"+node.name, "->", "S"+parent)
+        while False:
             print(l[0], '[ xlabel = "' + l[i] + '" ]')
             i += 1
 
