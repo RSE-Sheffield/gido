@@ -26,6 +26,8 @@ def main(argv=None):
 def inspect(ns, remainder):
     """
     Inspect the git repo and convert to dot format.
+
+    *ns* is a namespace object from argparse.
     """
 
     child = git("log", "--no-patch", "--pretty=%h %p -- %D", *remainder)
