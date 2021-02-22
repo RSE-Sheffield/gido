@@ -10,6 +10,10 @@ Display `git` repo as graph network using `dot`.
     # from a clone:
     python -m pip install .
 
+Instructions for developers, who may need to build wheel files
+or create editable installs, can be found in a section at the
+end of this file.
+
 ## Usage
 
     gido
@@ -58,5 +62,10 @@ Most options are likely to disrupt the parsing of the output of
 Which can be uploaded to PyPI using `twine`:
 
     python -m twine upload *.whl
+
+Because there is a stub `setup.py` an editable install can be
+made with:
+
+    python -m pip install -e .
 
 ∎
