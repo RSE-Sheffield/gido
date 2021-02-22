@@ -13,6 +13,9 @@ import sys
 import git
 
 
+import short
+
+
 # Minimum supported Python version
 assert sys.version_info >= (3, 7)
 
@@ -37,15 +40,25 @@ def inspect(ns, remainder):
 
     nodes = Parents()
 
+    names = NodeNames(nodes)
+    short_names = short.short(names)
+    shorten = dict()
+    for long_name, short_name in short_names:
+        M = 5
+        if len(short_name) < M:
+            short_name = long_name[:M]
+        shorten[long_name] = short_name
+
     print("digraph G {")
 
     for node in nodes:
         # Output node label.
-        print("S"+node.name, '[ label = "' + node.name + '" ]')
+        label = shorten[node.name]
+        print("S"+label, '[ label = "' + label + '" ]')
 
         # Output an edge for each parent.
         for parent in node.parent:
-            print("S"+node.name, "->", "S"+parent)
+            print("S"+label, "->", "S"+shorten[parent])
         while False:
             print(l[0], '[ xlabel = "' + l[i] + '" ]')
             i += 1
@@ -80,6 +93,20 @@ def Parents():
         rs.append(Relationship(str(commit), [str(p) for p in commit.parents]))
 
     return rs
+
+
+def NodeNames(nodes):
+    """
+    Return a set of all the names used (parents and node names).
+    """
+
+    names = set()
+    for node in nodes:
+        names.add(node.name)
+        for parent in node.parent:
+            names.add(parent)
+
+    return names
 
 
 if __name__ == "__main__":
