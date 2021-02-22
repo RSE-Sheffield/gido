@@ -38,7 +38,10 @@ def inspect(ns, remainder):
     Inspect the git repo and convert to dot format.
     """
 
-    nodes = Parents()
+    dir = "."
+    repo = git.Repo(dir)
+    nodes = Parents(repo)
+    labels = Labels(repo)
 
     names = NodeNames(nodes)
     short_names = short.short(names)
@@ -59,6 +62,11 @@ def inspect(ns, remainder):
         # Output an edge for each parent.
         for parent in node.parent:
             print("S"+label, "->", "S"+shorten[parent])
+
+        # Any branch / ref labels
+        for xlabel in labels.get(node.name, []):
+            print("S"+label, '[ xlabel = "' + xlabel + '" ]')
+
         while False:
             print(l[0], '[ xlabel = "' + l[i] + '" ]')
             i += 1
@@ -69,19 +77,18 @@ def inspect(ns, remainder):
 Relationship = collections.namedtuple("Relationship", "name parent")
 
 
-def Parents():
+def Parents(repo):
     """
-    Return the parents of all findable commits in this git repo.
-    A sequence of nodes is returned, with each node
-    being represented by ("node-name", ("parent-name, ...))
-    tuple.
+    Return the parents of all findable commits in the git repo.
+    `repo` is expected to be a `gitpython` Repo instance,
+    typically returned from `git.Repo(dirname)`.
+    This function returns a sequence of nodes,
+    with each node being represented by
+    a ("node-name", ("parent-name, ...)) tuple.
     """
-
-    dir = "."
 
     N=99
 
-    repo = git.Repo(dir)
     heads = repo.heads
 
     found_commits = set()
@@ -93,6 +100,18 @@ def Parents():
         rs.append(Relationship(str(commit), [str(p) for p in commit.parents]))
 
     return rs
+
+
+def Labels(repo):
+    """
+    Return a dictionary that maps from commit names (SHAs) to
+    ref names (branches and tags).
+    """
+
+    labels = collections.defaultdict(list)
+    for ref in repo.refs:
+        labels[str(ref.commit)].append(str(ref))
+    return dict(labels)
 
 
 def NodeNames(nodes):
