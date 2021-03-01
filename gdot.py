@@ -63,9 +63,12 @@ def inspect(ns, remainder):
         for parent in node.parent:
             print("S"+label, "->", "S"+shorten[parent])
 
-        # Any branch / ref labels
-        for xlabel in labels.get(node.name, []):
-            print("S"+label, '[ xlabel = "' + xlabel + '" ]')
+        # Any branch / ref labels.
+        # Fold all git labels into a single xlabel attribute.
+        xlabels = labels.get(node.name)
+        if xlabels:
+            x_repr = r"\n".join(xlabels)
+            print("S"+label, '[ xlabel = "' + x_repr + '" ]')
 
         while False:
             print(l[0], '[ xlabel = "' + l[i] + '" ]')
