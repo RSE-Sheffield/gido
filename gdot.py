@@ -59,12 +59,16 @@ def RepoDot(repo):
     # a dict that maps from long name to short names
     shorten = Shortener(nodes)
 
+    head = str(repo.head.commit)
+
     print("digraph G {")
 
     for node in nodes:
         # Output node label.
         label = shorten[node.name]
         print("S"+label, '[ label = "' + label + '" ]')
+        if node.name == head:
+            print("S"+label, '[ shape = "doublecircle" ]')
 
         # Output an edge for each parent.
         for parent in node.parent:
