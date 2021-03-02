@@ -47,14 +47,8 @@ def inspect(ns, remainder):
     nodes = Parents(repo)
     labels = Labels(repo)
 
-    names = NodeNames(nodes)
-    short_names = short.short(names)
-    shorten = dict()
-    for long_name, short_name in short_names:
-        M = 5
-        if len(short_name) < M:
-            short_name = long_name[:M]
-        shorten[long_name] = short_name
+    # a dict that maps from long name to short names
+    shorten = Shortener(nodes)
 
     print("digraph G {")
 
@@ -79,6 +73,26 @@ def inspect(ns, remainder):
             i += 1
 
     print("}")
+
+
+def Shortener(nodes):
+    """
+    For a given set of nodes (which are actually Kinship instances),
+    return a dict that can be used to map from long name (key) to
+    short name (value).
+    """
+
+    d = dict()
+
+    names = NodeNames(nodes)
+    short_names = short.short(names)
+    for long_name, short_name in short_names:
+        M = 5
+        if len(short_name) < M:
+            short_name = long_name[:M]
+        d[long_name] = short_name
+
+    return d
 
 
 Kinship = collections.namedtuple("Kinship", "name parent")
