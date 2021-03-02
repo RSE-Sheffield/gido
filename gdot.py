@@ -6,7 +6,11 @@ Same as gido.py but using gitpython instead.
 From a git repo, produce a dot file.
 """
 
+
+# https://docs.python.org/3.7/library/collections.html
 import collections
+# https://docs.python.org/3.7/library/itertools.html
+import itertools
 import sys
 
 # https://gitpython.readthedocs.io/en/3.1.0/
@@ -92,11 +96,14 @@ def Parents(repo):
 
     N=99
 
-    heads = repo.heads
+    # The heads of this repo...
+    refs = repo.heads
+    # Plus all the refs (branches, basically) in remotes
+    refs += list(itertools.chain(*[rem.refs for rem in repo.remotes]))
 
     found_commits = set()
-    for head in heads:
-        found_commits |= set(repo.iter_commits(head.commit, max_count=N))
+    for ref in refs:
+        found_commits |= set(repo.iter_commits(ref.commit, max_count=N))
 
     rs = []
     for commit in found_commits:
