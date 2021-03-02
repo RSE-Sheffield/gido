@@ -44,6 +44,14 @@ def inspect(ns, remainder):
 
     dir = "."
     repo = git.Repo(dir)
+
+
+def RepoDot(repo):
+    """
+    Print a graphviz dot file that represents the repo (a
+    GitPython repo instance).
+    """
+
     nodes = Parents(repo)
     labels = Labels(repo)
 
