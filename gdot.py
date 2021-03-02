@@ -81,7 +81,7 @@ def inspect(ns, remainder):
     print("}")
 
 
-Relationship = collections.namedtuple("Relationship", "name parent")
+Kinship = collections.namedtuple("Kinship", "name parent")
 
 
 def Parents(repo):
@@ -107,7 +107,7 @@ def Parents(repo):
 
     rs = []
     for commit in found_commits:
-        rs.append(Relationship(str(commit), [str(p) for p in commit.parents]))
+        rs.append(Kinship(str(commit), [str(p) for p in commit.parents]))
 
     return rs
 
