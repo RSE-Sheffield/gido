@@ -68,4 +68,5 @@ made with:
 
     python -m pip install -e .
 
+There is CI running on gitlab.
 ∎
